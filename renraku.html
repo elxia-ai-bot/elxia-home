@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ELXIA">
+<meta name="theme-color" content="#1f3a5f">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<title>ELXIA 現場連絡</title>
+<style>
+:root{--navy:#1f3a5f;--org:#ffb84d;--org2:#e8931c;--bg:#f4f6f9;--ink:#1a1a1a;--mute:#5b6b7f;--line:#d5dbe3;--card:#fff;--red:#c0392b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+body{padding-bottom:calc(env(safe-area-inset-bottom) + 24px)}
+header{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;display:flex;align-items:center;padding:calc(env(safe-area-inset-top) + 6px) 6px 6px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+header h1{font-size:17px;margin:0;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtn{background:none;border:0;color:#fff;font-size:16px;min-width:72px;min-height:44px;padding:0 6px;font-family:inherit}
+.hbtn.r{text-align:right}
+main{max-width:640px;margin:0 auto;padding:12px}
+section[hidden]{display:none}
+h2{font-size:14px;color:var(--mute);margin:18px 4px 8px;font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border:2px solid var(--org);border-radius:14px;padding:12px 8px;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:16px;font-weight:700;color:var(--ink);text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);font-family:inherit}
+.tile .ic{font-size:30px;line-height:1.2}
+.tile small{font-weight:400;font-size:12px;color:var(--mute)}
+.list{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.row{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 12px;font-size:16px;color:var(--ink);text-align:left;min-height:56px;font-family:inherit}
+.row:last-child{border-bottom:0}
+.row .ic{font-size:22px;width:30px;text-align:center;flex:none}
+.row .t{flex:1;line-height:1.35}
+.row .t small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.row .no{font-size:12px;color:var(--mute);background:var(--bg);border-radius:6px;padding:2px 6px;flex:none}
+.row::after{content:"›";color:#aab;font-size:22px}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.card > b{display:block;margin-bottom:4px}
+.hint{background:#fff7e6;border-left:4px solid var(--org);padding:10px 12px;border-radius:8px;font-size:14px;margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px;font-weight:600}
+.card label:first-child{margin-top:0}
+input[type=text],input[type=email],input[type=number],input[type=date],input[type=time],textarea{width:100%;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);-webkit-appearance:none;appearance:none;outline:none;font-family:inherit;min-height:46px}
+input:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 2px rgba(31,58,95,.15)}
+textarea{min-height:72px;resize:vertical;line-height:1.5}
+textarea.body{min-height:240px;font-size:15px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:12px;border:0;font-size:17px;font-weight:700;padding:10px 14px;font-family:inherit;color:#fff;background:var(--navy)}
+.btn.org{background:var(--org2)}
+.btn.line{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.sub{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:600;font-size:15px;min-height:46px}
+.btn.cam{background:var(--org2);font-size:20px;min-height:64px}
+.btn:active{opacity:.75}
+.btns{display:grid;gap:10px;margin-top:10px}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.photos:empty{display:none}
+.ph{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#e5e9ef}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph button{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:18px;line-height:30px;padding:0}
+.ph small{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:1px 6px;border-radius:6px}
+.note{font-size:13px;color:var(--mute);margin-top:8px;line-height:1.45}
+.pv-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.pv-head b{font-size:15px}
+.pv-head button{background:none;border:0;color:var(--navy);font-size:14px;text-decoration:underline;padding:4px;font-family:inherit}
+.chk{display:flex;align-items:center;gap:10px;font-size:15px;margin-top:14px}
+.chk input{width:22px;height:22px;flex:none}
+.chk label{margin:0;font-size:15px;color:var(--ink);font-weight:400}
+.logitem{border-bottom:1px solid var(--line);padding:10px 0}
+.logitem:last-child{border-bottom:0}
+.logitem .d{font-size:12px;color:var(--mute)}
+.logitem .s{font-weight:700;margin:2px 0}
+.logitem pre{white-space:pre-wrap;font-family:inherit;font-size:13px;margin:4px 0 6px;color:#333;max-height:110px;overflow:hidden;position:relative}
+.logitem .ops{display:flex;gap:8px}
+.logitem .ops button{font-size:13px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--navy);font-family:inherit}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:rgba(20,30,45,.95);color:#fff;padding:12px 18px;border-radius:12px;font-size:15px;max-width:92%;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50}
+#toast.on{opacity:1}
+.empty{color:var(--mute);text-align:center;padding:24px 0;font-size:14px}
+.ver{color:#99a;font-size:11px;text-align:center;margin-top:20px}
+</style>
+<link rel="stylesheet" href="theme.css"></head>
+<body data-page="renraku">
+<header>
+  <button class="hbtn" id="btnBack">‹ 戻る</button>
+  <h1 id="hTitle">ELXIA 現場連絡</h1>
+  <button class="hbtn r" id="btnSettings">⚙ 設定</button>
+</header>
+<main>
+
+<section id="home">
+  <div class="hint" id="firstHint" hidden>はじめに右上の <b>⚙ 設定</b> で「現場名」「宛先」「自分の名前」を入れておくと、毎回の入力が減ります。</div>
+  <h2>よく使う</h2>
+  <div class="tiles" id="tiles"></div>
+  <div id="groups"></div>
+  <div class="btns"><button class="btn sub" id="btnLog">📒 作成・共有の記録を見る</button></div>
+  <div class="ver">ELXIA 現場連絡 <span id="ver"></span></div>
+</section>
+
+<section id="form" hidden>
+  <div class="hint" id="fWhen"></div>
+  <div class="card" id="fFields"></div>
+  <div class="card">
+    <b>📷 写真</b>
+    <div class="btns">
+      <button class="btn cam" id="btnCam">📷 撮影する</button>
+      <button class="btn sub" id="btnPick">🖼 撮ってある写真から選ぶ</button>
+    </div>
+    <div class="photos" id="photos"></div>
+    <div class="note">ここで撮った写真は本体の「写真」には残りません。記録に残したいときは、カメラで撮ってから「写真から選ぶ」を使うか、送る画面で「画像を保存」も押してください。</div>
+    <input type="file" id="inCam" accept="image/*" capture="environment" multiple hidden>
+    <input type="file" id="inPick" accept="image/*" multiple hidden>
+  </div>
+  <div class="card">
+    <div class="pv-head"><b>✉️ 送る文（ここで直せます）</b><button id="btnRegen">入力から作り直す</button></div>
+    <label for="pvSubject">件名</label><input type="text" id="pvSubject">
+    <label for="pvBody">本文</label><textarea class="body" id="pvBody"></textarea>
+  </div>
+  <div class="btns">
+    <button class="btn org" id="btnShare">📤 写真つきで送る（メール／LINEを選ぶ）</button>
+    <button class="btn line" id="btnMail">✉️ メールアプリで開く（本文入り）</button>
+    <button class="btn sub" id="btnCopy">📋 本文をコピー</button>
+  </div>
+  <div class="note">「送る」を押すと本文は自動でコピーされます。開いた画面に本文が入っていなければ、本文欄を長押し→「ペースト」してください。「メールアプリで開く」は写真が付かないので、手で添付してください。</div>
+</section>
+
+<section id="settings" hidden>
+  <div class="card">
+    <label for="sSite">現場名</label><input type="text" id="sSite" placeholder="例：いすゞ大平">
+    <label for="sToCo">宛先の会社名（任意）</label><input type="text" id="sToCo" placeholder="例：○○電気株式会社">
+    <label for="sToName">宛先の担当者名</label><input type="text" id="sToName" placeholder="例：山田">
+    <label for="sToMail">宛先メールアドレス</label><input type="email" id="sToMail" placeholder="例：yamada@example.co.jp">
+    <label for="sCc">CCメール（複数はカンマ区切り）</label><input type="text" id="sCc" placeholder="例：elxia.2019@gmail.com">
+    <label for="sMe">自分の名前（送り主）</label><input type="text" id="sMe" placeholder="例：栁">
+    <label for="sSig">署名（メールの最後に付く。{名前} は自分の名前に置き換わる）</label><textarea id="sSig"></textarea>
+    <div class="chk"><input type="checkbox" id="sShrink"><label for="sShrink">写真を小さくしてから送る（メール向け・おすすめ）</label></div>
+  </div>
+  <div class="btns"><button class="btn" id="btnSaveS">保存する</button></div>
+  <div class="note">設定はこのスマホの中だけに保存されます（どこにも送られません）。</div>
+</section>
+
+<section id="log" hidden>
+  <div class="card" id="logList"></div>
+  <div class="btns"><button class="btn sub" id="btnClearLog">記録を全部消す</button></div>
+  <div class="note">作成・コピー・共有した本文の控えです。送信完了の記録ではありません。実際に送れたかはメールやLINEで確認してください。写真はここには残りません。</div>
+</section>
+
+</main>
+<div id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s);
+const VER='v1.1（2026-09-14）';
+const LS_S='elxia_renraku_settings', LS_L='elxia_renraku_log';
+const DEF_SIG='株式会社ELXIA　{名前}';
+let saved={}; try{ saved=JSON.parse(localStorage.getItem(LS_S)||'{}'); }catch(e){}
+const S=Object.assign({site:'',toCo:'',toName:'',toMail:'',cc:'',me:'栁',sig:DEF_SIG,shrink:true},saved);
+const saveS=()=>{ try{ localStorage.setItem(LS_S,JSON.stringify(S)); }catch(e){} };
+
+/* ---------- 日付まわり ---------- */
+const pad=n=>String(n).padStart(2,'0');
+const isoDate=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const jpDate=iso=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||''); return m?`${+m[2]}月${+m[3]}日`:(iso||''); };
+const hm=d=>`${pad(d.getHours())}:${pad(d.getMinutes())}`;
+const plus=min=>{ const d=new Date(Date.now()+min*60000); d.setMinutes(Math.ceil(d.getMinutes()/30)*30,0,0); return hm(d); };
+const nowText=()=>{ const d=new Date(); return `${d.getMonth()+1}月${d.getDate()}日 ${hm(d)}`; };
+const stamp=()=>{ const d=new Date(); return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`; };
+function defVal(d){
+  if(d==='today') return isoDate(new Date());
+  if(d==='tomorrow') return isoDate(new Date(Date.now()+864e5));
+  if(d==='now') return hm(new Date());
+  if(d==='nowtext') return nowText();
+  if(typeof d==='string' && /^\+\d+$/.test(d)) return plus(+d.slice(1));
+  return d==null?'':String(d);
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- テンプレ定義 ---------- */
+const G=[['B','📐 図面のこと'],['C','🚧 手待ち・他業者'],['E','🧱 段取りの問題（元請の手配漏れ）'],['X','🚨 事故・ヒヤリ'],['A','📄 契約・請求']];
+const T=[
+{id:'B-2',g:'B',ic:'📐',star:true,photo:true,style:'line',title:'図面と現場が違う',when:'写真1枚＋「こう進めていいか」を聞く。期限を切る',
+ fields:[{k:'工区',l:'工区・場所',ph:'例：2階 東側'},{k:'図面No',l:'図面No.',ph:'例：E-12'},{k:'図面',l:'図面ではどうなっている',ph:'例：盤は柱の右側'},{k:'現場',l:'現場はどうなっている',ph:'例：柱の右にダクトがあり付かない'},{k:'案',l:'こう進めたい',ph:'例：柱の左側に取付'},{k:'期限',l:'返事の期限（この時刻まで）',t:'time',d:'+60'}],
+ subject:'【{現場名}】図面不備 {工区} 図面No.{図面No}',
+ body:'【図面不備】{工区} 図面No.{図面No}\n現場と図面が相違しています。\n・図面：{図面}\n・現場：{現場}（写真参照）\n{案}で施工して問題ないでしょうか。\n{期限}までにご返答がない場合、{案}で進めさせていただきます。\n（返答待ちの間は別作業に振っています）'},
+{id:'B-1',g:'B',ic:'📬',style:'mail',title:'図面・工程表が来ない（催促）',when:'「いつまでに欲しい」「来ないと手待ちになる」を書面で残す',
+ fields:[{k:'工区',l:'工区',ph:'例：3階 西側'},{k:'対象',l:'何の図面か',ph:'例：盤設置／ケーブルルート'},{k:'希望期日',l:'希望期日',t:'date'},{k:'回数',l:'催促は何回目',t:'number',d:'1'},{k:'手待ち日',l:'この日以降は手待ちになる',t:'date'}],
+ subject:'【{現場名}】施工図・工程表のご提出依頼（{回数}回目）',
+ body:'{工区}の施工図（および週間工程表）が本日時点で未受領のため、着手できない状況です。\n・対象：{工区} {対象}\n・希望期日：{希望期日}\n期日までに受領できない場合、{手待ち日}以降は手待ちが発生しますので、ご対応をお願いいたします。'},
+{id:'B-3',g:'B',ic:'🗣️',style:'mail',title:'口頭で指示を受けた（復唱）',when:'「本日こう聞きました」をその日のうちに送る',
+ fields:[{k:'時刻',l:'指示を受けた時刻',t:'time',d:'now'},{k:'内容',l:'指示の内容',t:'textarea',ph:'例：○○を△△に変更して施工'},{k:'対象範囲',l:'対象範囲',ph:'例：2階 東側の幹線'},{k:'指示者',l:'指示した人',ph:'例：山田'}],
+ subject:'【{現場名}】本日の口頭指示の確認',
+ body:'本日{時刻}、現場にて下記の指示を口頭で受けましたので、確認のため送付します。\n・内容：{内容}\n・対象範囲：{対象範囲}\n・指示者：{指示者}様\n相違があれば本日中にご連絡ください。ご連絡がなければ上記のとおり進めます。'},
+{id:'B-4',g:'B',ic:'🧮',style:'mail',title:'直しに人工がかかる（先に見込みを伝える）',when:'着手前に人数×日数を伝えて了解を取る',
+ fields:[{k:'図面No',l:'図面No.',ph:'例：E-12'},{k:'不備内容',l:'不備の内容',ph:'例：盤位置の相違'},{k:'作業内容',l:'作業内容',ph:'例：ラックの撤去・再施工'},{k:'人数',l:'人数',t:'number'},{k:'日数',l:'日数',t:'number'},{k:'単価',l:'単価（円）',t:'number'},{k:'着手予定',l:'着手予定',t:'date'}],
+ calc:v=>{ const a=+v.人数||0,b=+v.日数||0; v.人工=(a&&b)?String(a*b):''; },
+ subject:'【{現場名}】{作業内容}に伴う追加人工の見込み',
+ body:'図面No.{図面No}の不備（{不備内容}）に伴う是正作業について、追加人工を下記のとおり見込みます。\n・作業内容：{作業内容}\n・見込み：{人数}人×{日数}日＝{人工}人工（単価{単価}円）\n・着手予定：{着手予定}\n上記でご了承いただければ着手します。月次請求で「図面不備是正分」として別行計上いたします。'},
+{id:'B-5',g:'B',ic:'📝',photo:true,style:'mail',title:'返事がなく自分で判断して施工した（事後報告）',when:'期限までに返事がなかった→こう施工した、を写真つきで',
+ fields:[{k:'工区',l:'工区',ph:'例：2階 東側'},{k:'送信日時',l:'確認を送った日時',ph:'例：9月13日 10:00'},{k:'図面No',l:'図面No.',ph:'例：E-12'},{k:'施工内容',l:'こう施工した',t:'textarea'},{k:'理由',l:'理由',ph:'例：ダクトと干渉するため'},{k:'指示期限',l:'問題があればこの日までに',t:'date'},{k:'追加人工',l:'追加人工',t:'number'}],
+ subject:'【{現場名}】{工区} 現場判断施工のご報告',
+ body:'{送信日時}にお送りした図面不備の確認（図面No.{図面No}）につき、期限までにご返答がなかったため、下記のとおり施工しましたのでご報告します（写真添付）。\n・施工内容：{施工内容}\n・理由：{理由}\n問題があれば{指示期限}までにご指示ください。ご指示がなければ本施工で確定とさせていただきます。\nなお、本件の追加人工は{追加人工}人工です。'},
+{id:'B-6',g:'B',ic:'✅',photo:true,style:'mail',title:'図面がないまま着手する（承認をもらう）',when:'「図面がないので現場判断でやります、承認を」',
+ fields:[{k:'工区',l:'工区',ph:'例：1階 受変電室'},{k:'施工方針',l:'こう施工する',t:'textarea',ph:'例：ルート、機器位置 など'},{k:'根拠',l:'根拠',ph:'例：設計図、既設状況'}],
+ subject:'【{現場名}】{工区} 図面未受領に伴う現場判断施工の承認依頼',
+ body:'{工区}は施工図未受領ですが、工程上着手が必要なため、下記のとおり現場判断で施工します。承認をお願いいたします。\n・施工方針：{施工方針}\n・根拠：{根拠}\n後日施工図が発行され本施工と相違した場合の手戻りは、別途人工にて精算とさせていただきます。'},
+
+{id:'C-2',g:'C',ic:'🚧',star:true,photo:true,style:'line',title:'他の業者がいて入れない',when:'待機か別作業か、元請に決めさせる。時間を切る',
+ fields:[{k:'エリア',l:'エリア',ph:'例：3階 北側'},{k:'予定作業',l:'予定していた作業',ph:'例：ラック敷設'},{k:'業者名',l:'入っている業者',ph:'例：○○塗装'},{k:'別作業',l:'切り替える別作業',ph:'例：2階の盤内配線'},{k:'分',l:'返事を待つ時間（分）',t:'number',d:'30'}],
+ subject:'【{現場名}】着手不可 {エリア}',
+ body:'【着手不可】{エリア}\n予定していた{予定作業}に{業者名}が施工中で入れません（写真参照）。\n下記のどちらにするかご指示ください。\n①待機（手待ち計上）\n②別作業に切替（{別作業}）\n{分}分以内にご返答がなければ②で進め、待機分は手待ちとして記録します。'},
+{id:'C-1',g:'C',ic:'📅',star:true,style:'line',title:'明日の作業予定を出す',when:'前日に場所と時間を押さえる。出さないと「聞いてない」で終わる',
+ fields:[{k:'日付',l:'日付',t:'date',d:'tomorrow'},{k:'人数',l:'人数',t:'number'},{k:'エリア',l:'エリア',ph:'例：2階 東側 盤まわり'},{k:'時間',l:'時間',ph:'例：8:00〜17:00'},{k:'作業',l:'作業',ph:'例：ラック敷設、ケーブル入線'},{k:'使用設備',l:'使うもの',ph:'例：高所作業車／脚立／揚重'}],
+ subject:'【{現場名}】{日付}の作業予定（ELXIA）',
+ body:'【明日の作業予定】ELXIA\n・{日付} {人数}人\n・エリア：{エリア} {時間}\n・作業：{作業}\n・使用設備：{使用設備}\n他業者と重なる場合は本日中にご連絡ください。'},
+{id:'C-3',g:'C',ic:'⏸️',style:'mail',title:'「来なくていい」と言われた（待機の確認）',when:'手配済みの人は待機人工にする、を書面で',
+ fields:[{k:'連絡者',l:'言ってきた人',ph:'例：山田'},{k:'理由',l:'理由',ph:'例：建築の作業'},{k:'待機日',l:'待機日',t:'date'},{k:'人数',l:'手配済みの人数',t:'number'}],
+ subject:'【{現場名}】{待機日} 待機のご確認',
+ body:'本日、貴社{連絡者}様より「{理由}のため{待機日}は現場に入らないように」との連絡を受けましたので確認します。\n・待機日：{待機日}（{人数}人）\n・理由：{理由}\n既に手配済みの人員につき、待機日は{人数}人工として計上させていただきます。'},
+
+{id:'E-1',g:'E',ic:'📦',photo:true,style:'mail',title:'材料が届かない',when:'到着日を聞く／こちらで手配なら実費＋手間',
+ fields:[{k:'着手予定',l:'着手予定日',t:'date'},{k:'作業',l:'作業',ph:'例：3階 幹線入線'},{k:'材料',l:'届いていない材料',ph:'例：CV 38sq 3C'}],
+ subject:'【{現場名}】支給材未着 {材料}',
+ body:'【支給材未着】\n{着手予定}着手予定の{作業}について、貴社支給の{材料}が未着です。\n①貴社手配の到着予定日をご教示ください。\n②急ぎであれば弊社にて手配可能ですが、実費＋手配手間を別途請求とさせていただきます。\n未着の間は手待ちまたは別作業に振ります。'},
+{id:'E-2',g:'E',ic:'🏗️',photo:true,style:'mail',title:'仮設電源・揚重・高所車がない',when:'共通仮設は元請の範囲。手配を文書で頼む',
+ fields:[{k:'作業日',l:'作業日',t:'date'},{k:'作業',l:'作業',ph:'例：ラック吊り込み'},{k:'必要なもの',l:'必要なもの',t:'textarea',ph:'例：仮設電源（30A、2階東）／高所作業車6m／揚重（200kg、3階へ）'},{k:'期限',l:'この日までに手配を',t:'date'}],
+ subject:'【{現場名}】仮設・揚重の手配依頼（{作業日}）',
+ body:'【仮設・揚重手配依頼】\n{作業日}の{作業}に下記が必要ですが、現場に用意がありません。\n・{必要なもの}\n貴社にて{期限}までに手配をお願いします。弊社で手配する場合はレンタル実費＋運搬費を別途請求します。'},
+{id:'E-3',g:'E',ic:'⚡',style:'mail',title:'急な工程変更・前倒し',when:'対応できるか即答。割増とキャンセル費を先に書く',
+ fields:[{k:'受領日時',l:'連絡を受けた日時',d:'nowtext'},{k:'変更内容',l:'変更の内容',ph:'例：防塵塗装を月曜→明日から'},{k:'対応可否',l:'対応できるか',ph:'例：9/15は3人まで対応可'},{k:'残業',l:'残業割増（％）',t:'number',d:'25'},{k:'休日',l:'休日割増（％）',t:'number',d:'35'},{k:'待機人工',l:'中止のときの待機人工',t:'number',d:'1'}],
+ subject:'【{現場名}】工程変更のご連絡受領（{変更内容}）',
+ body:'【工程変更のご連絡受領】\n{受領日時}に{変更内容}の変更連絡を受けました。\n・対応可否：{対応可否}\n・条件：前日17時以降の変更につき、残業{残業}％・休日{休日}％割増。手配済み人員の中止は{待機人工}人工を待機として計上\n上記で進めてよろしければご返信ください。'},
+{id:'E-4',g:'E',ic:'➕',style:'mail',title:'「ついでに」追加を頼まれた',when:'小さくても「別途」。注文書（メールでも可）をもらってから',
+ fields:[{k:'依頼者',l:'頼んできた人',ph:'例：山田'},{k:'内容',l:'頼まれた内容',ph:'例：仮設分電盤の増設'},{k:'見込み',l:'見込み',ph:'例：2人工 または 一式30,000円'}],
+ subject:'【{現場名}】追加作業の確認（{内容}）',
+ body:'【追加作業の確認】\n本日{依頼者}様より{内容}（当初範囲外）のご依頼を受けました。\n・内容：{内容}\n・見込み：{見込み}\n注文書（メールでの発注確認でも可）をいただき次第着手します。当初範囲の工程に影響する場合は併せて調整をお願いします。'},
+{id:'E-5',g:'E',ic:'🗂️',style:'mail',title:'安全書類の確認',when:'書式・提出先・期限を先に聞く',
+ fields:[{k:'提出予定',l:'こちらの提出予定日',t:'date'}],
+ subject:'【{現場名}】安全書類の確認',
+ body:'【安全書類の確認】\n{現場名}の安全書類について、下記をご教示ください。\n・必要書類：施工体制台帳／再下請負通知／作業員名簿／新規入場者教育／グリーンサイト登録\n・書式・提出先・提出期限\n弊社分は{提出予定}までに提出します。貴社作成分（施工計画書、統括安全衛生管理関係）の提出時期も併せてお願いします。'},
+{id:'E-6',g:'E',ic:'🔍',photo:true,style:'mail',title:'検査の立会をお願いする',when:'来なければ自主検査で進める、と期限付きで',
+ fields:[{k:'工区',l:'工区',ph:'例：1階 東側'},{k:'対象',l:'検査の対象',ph:'例：隠蔽部・埋設・盤結線'},{k:'完了日',l:'完了する日',t:'date'},{k:'立会日時',l:'立会してほしい日時',ph:'例：9月16日 10時'},{k:'次工程',l:'次の工程',ph:'例：埋戻し・仕上げ'}],
+ subject:'【{現場名}】{工区} 検査立会のお願い（{立会日時}）',
+ body:'【検査立会依頼】\n{工区} {対象}が{完了日}に完了します。{立会日時}に立会検査をお願いします。\n立会がない場合は弊社自主検査（写真・チェックリスト添付）にて次工程（{次工程}）に進めますので、後日の指摘による手戻りは別途精算とさせていただきます。'},
+{id:'E-7',g:'E',ic:'🔁',photo:true,style:'mail',title:'完了後に設計変更でやり直し',when:'撤去と再施工を分けて人工にする。材料も',
+ fields:[{k:'受領日',l:'変更を受けた日',t:'date',d:'today'},{k:'図面No',l:'図面No.',ph:'例：E-20'},{k:'対象',l:'やり直す部分',ph:'例：2階のケーブルラック'},{k:'撤去人工',l:'撤去の人工',t:'number'},{k:'再施工人工',l:'再施工の人工',t:'number'},{k:'材料',l:'材料',ph:'例：ラック 10m'}],
+ subject:'【{現場名}】設計変更に伴う手戻り（図面No.{図面No}）',
+ body:'【設計変更に伴う手戻り】\n{受領日}受領の変更（図面No.{図面No}）により、施工済みの{対象}の撤去・再施工が必要です。\n・撤去：{撤去人工}人工\n・再施工：{再施工人工}人工\n・材料：{材料}\n上記を追加として計上してよろしければ着手します。'},
+{id:'E-8',g:'E',ic:'📑',style:'mail',title:'竣工図・書類を丸投げされた',when:'労務の範囲外。別途見積にする',
+ fields:[{k:'図面種類',l:'図面の種類',ph:'例：電気設備図'},{k:'枚数',l:'枚数',t:'number'},{k:'竣工図金額',l:'竣工図の金額（円）',t:'number'},{k:'試験成績書金額',l:'試験成績書の金額（円）',t:'number'}],
+ subject:'【{現場名}】完成書類作成のご依頼について',
+ body:'【完成書類作成のご依頼について】\n竣工図・試験成績書の作成は当初の労務範囲に含まれておりません。作成する場合は下記にて別途お見積りします。\n・竣工図（{図面種類} {枚数}枚）：{竣工図金額}円\n・試験成績書：{試験成績書金額}円\nご発注の場合は注文書をお願いします。'},
+{id:'E-9',g:'E',ic:'🧹',style:'mail',title:'範囲外の作業を頼まれた',when:'指示を文書でもらって人工にする、か断る',
+ fields:[{k:'作業',l:'頼まれた作業',ph:'例：他業者分の片付け／共用部の清掃'},{k:'人工',l:'かかる人工',t:'number'}],
+ subject:'【{現場名}】範囲外作業の確認（{作業}）',
+ body:'【範囲外作業の確認】\n{作業}は弊社範囲外です。貴社指示で行う場合は{人工}人工として計上します。よろしければ指示をメールでお願いします。'},
+{id:'E-10',g:'E',ic:'🧑‍🔧',style:'mail',title:'作業員に直接指示される',when:'指示は職長を通す、に一本化してもらう',
+ fields:[{k:'職長名',l:'職長の名前',ph:'例：木村'}],
+ subject:'【{現場名}】指示ルートのお願い',
+ body:'【指示ルートのお願い】\n作業員への直接指示が続いており、指示の食い違いと手戻りが出ています。今後は弊社職長（{職長名}）を通してご指示いただくようお願いします。緊急時は職長へ電話をお願いします。'},
+{id:'E-11',g:'E',ic:'📞',style:'mail',title:'窓口が分からない・返事が来ない',when:'窓口と返答の目安を決めてもらう',
+ fields:[{k:'窓口候補',l:'窓口にしてほしい人',ph:'例：山田様'},{k:'不在時',l:'不在のとき',ph:'例：佐藤様'},{k:'返答分',l:'質疑の返答目安（分）',t:'number',d:'30'},{k:'前日時刻',l:'翌日調整はこの時刻まで',ph:'例：15時'}],
+ subject:'【{現場名}】連絡窓口の確認',
+ body:'【連絡窓口の確認】\n図面質疑・作業調整の窓口と返答目安をご指定ください。\n・窓口：{窓口候補}（不在時：{不在時}）\n・返答目安：質疑は{返答分}分以内、翌日作業調整は前日{前日時刻}まで\n返答遅れによる手待ちは記録のうえ計上させていただきます。'},
+{id:'E-12',g:'E',ic:'🗺️',style:'mail',title:'図面の最新版が分からない',when:'手元の版が最新か確認。旧版施工の手戻りは元請都合',
+ fields:[{k:'図面No',l:'図面No.',ph:'例：E-12'},{k:'版日付',l:'手元の図面の日付',t:'date'}],
+ subject:'【{現場名}】図面の最新版確認（図面No.{図面No}）',
+ body:'【図面の最新版確認】\n図面No.{図面No}について、手元の{版日付}版が最新かご確認ください。改訂があった場合は改訂日・変更箇所を明記のうえ配布をお願いします。旧版で施工した場合の手戻りは貴社都合として計上します。'},
+{id:'E-13',g:'E',ic:'🛑',style:'mail',title:'現場が止まった（再開日を聞く）',when:'再開日を確定させ、人を他現場へ振る',
+ fields:[{k:'待機開始',l:'待機が始まった日',t:'date'},{k:'回答期限',l:'この日までに返事を',t:'date'}],
+ subject:'【{現場名}】再開日の確認',
+ body:'【再開日の確認】\n{待機開始}から待機中ですが、再開日が未定のため人員配置ができません。{回答期限}までに再開日をご連絡ください。ご連絡がない場合は他現場へ人員を振り替えるため、再開時の人数・日程は改めて調整となります。'},
+{id:'E-14',g:'E',ic:'💴',style:'mail',title:'支払いが遅い・値引きを言われた',when:'支払予定日を聞く。承認済みの追加分は減額しない',
+ fields:[{k:'対象月',l:'何月分',ph:'例：8月'},{k:'期限',l:'支払期限だった日',t:'date'},{k:'金額',l:'金額（円）',t:'number'},{k:'承認日',l:'追加分の承認日',ph:'例：8/20'}],
+ subject:'【{現場名}】{対象月}分お支払いの確認',
+ body:'【{対象月}分お支払いの確認】\n{期限}期限の{対象月}分（{金額}円）が本日時点で未入金です。お支払い予定日をご連絡ください。\nなお、事前承認済みの追加分（{承認日}承認）の減額は承れません。'},
+
+{id:'E-15',g:'X',ic:'🚨',star:true,photo:true,style:'mail',title:'事故・ヒヤリハット',when:'すぐ報告。事実だけ。写真と元請の指示内容を残す',
+ fields:[{k:'発生日時',l:'発生日時',d:'nowtext'},{k:'エリア',l:'エリア',ph:'例：3階 南側'},{k:'状況',l:'状況（事実だけ）',t:'textarea'},{k:'元請指示・現場状況',l:'元請の指示・現場の状況',t:'textarea',ph:'例：図面、養生、他業者の有無'},{k:'対応',l:'とった対応',t:'textarea'}],
+ subject:'【{現場名}】事故／ヒヤリ報告（{発生日時} {エリア}）',
+ body:'【事故／ヒヤリ報告】\n・発生：{発生日時} {エリア}\n・状況：{状況}（事実のみ）\n・元請指示・現場状況：{元請指示・現場状況}\n・対応：{対応}\n今後の対策協議をお願いします。'},
+
+{id:'A-1',g:'A',ic:'📄',style:'mail',title:'請負範囲の確認',when:'着工前に。進行中でも今から出す',
+ fields:[{k:'人工',l:'1日の人工',t:'number'},{k:'単価',l:'単価（円）',t:'number'}],
+ subject:'【{現場名}】請負範囲の確認',
+ body:'{現場名}につきまして、弊社の請負範囲を下記のとおり認識しております。相違があればご指摘ください。\n・弊社範囲：電気工事の労務提供（常用 {人工}人工／日、単価{単価}円）\n・貴社範囲：施工図作成、工程管理、材料手配、他業者との作業調整、共通仮設\nなお、貴社図面の不備・貴社指示の変更・他業者との輻輳・貴社都合の待機により生じた手戻り・手待ちは、別途人工にて精算させていただきます。\nご確認のほどよろしくお願いいたします。'},
+{id:'D-2',g:'A',ic:'🧾',style:'mail',title:'請求書を送る（追加分あり）',when:'追加分は別行。根拠を添付',
+ fields:[{k:'対象月',l:'何月分',ph:'例：8月'},{k:'是正人工',l:'図面不備是正の人工',t:'number'},{k:'承認日',l:'その承認日',ph:'例：8/20'},{k:'手待ち人工',l:'手待ちの人工',t:'number'},{k:'手待ち日',l:'手待ちの日',ph:'例：9/3、9/8'},{k:'回答期限',l:'不明点はこの日までに',t:'date'}],
+ subject:'【{現場名}】{対象月}分請求書送付（追加人工含む）',
+ body:'{対象月}分の請求書を送付します。通常人工のほか、下記の追加分を別行で計上しています。根拠資料を添付しますのでご確認ください。\n・図面不備是正：{是正人工}人工（{承認日}事前承認済み）\n・手待ち：{手待ち人工}人工（{手待ち日} 貴社指示）\nご不明点があれば{回答期限}までにご連絡ください。'}
+];
+
+/* ---------- 文を組み立てる ---------- */
+function fill(s,all){
+  return String(s).replace(/\{([^{}]+)\}/g,(m,k)=>{
+    const x=all[k];
+    if(x!==undefined && x!==null && String(x).trim()!=='') return String(x);
+    return k==='現場名'?'○○現場':'○○';
+  });
+}
+function compose(t){
+  const v=vals(); if(t.calc) t.calc(v);
+  const me=(S.me||'').trim();
+  const auto={名前:me||'○○', 今日:jpDate(isoDate(new Date())), 宛先様:(v.宛先名?v.宛先名+'様':'ご担当者様')};
+  const all=Object.assign({},auto,v);
+  const subject=fill(t.subject,all);
+  let body=fill(t.body,all);
+  if(t.style==='mail'){
+    const co=(S.toCo||'').trim(); const head=(co?co+'\n':'')+all.宛先様+'\nお世話になっております。株式会社ELXIAの'+(me||'○○')+'です。\n\n';
+    body=head+body+'\n\n'+fill(S.sig||DEF_SIG,all);
+  }else{
+    body=body+'\nELXIA '+me;
+  }
+  return {subject,body};
+}
+
+/* ---------- 画面 ---------- */
+let cur=null, manual=false, photos=[];
+function renderHome(){
+  $('#firstHint').hidden=!!(S.site||S.toName||S.toMail);
+  const tiles=$('#tiles'); tiles.innerHTML='';
+  T.filter(t=>t.star).forEach(t=>{ const b=document.createElement('button'); b.className='tile'; b.innerHTML=`<span class="ic">${t.ic}</span>${esc(t.title)}<small>${t.id}${t.photo?'・写真つき':''}</small>`; b.onclick=()=>go('f='+t.id); tiles.appendChild(b); });
+  const g=$('#groups'); g.innerHTML='';
+  G.forEach(([k,name])=>{
+    const items=T.filter(t=>t.g===k); if(!items.length) return;
+    const h=document.createElement('h2'); h.textContent=name; g.appendChild(h);
+    const box=document.createElement('div'); box.className='list';
+    items.forEach(t=>{ const b=document.createElement('button'); b.className='row'; b.innerHTML=`<span class="ic">${t.ic}</span><span class="t">${esc(t.title)}<small>${esc(t.when)}</small></span><span class="no">${t.id}</span>`; b.onclick=()=>go('f='+t.id); box.appendChild(b); });
+    g.appendChild(box);
+  });
+}
+function renderFields(t){
+  const box=$('#fFields'); box.innerHTML='';
+  const fs=[{k:'現場名',l:'現場名',ph:'例：いすゞ大平',d:S.site},{k:'宛先名',l:'宛先（担当者名）',ph:'例：山田',d:S.toName}].concat(t.fields||[]);
+  fs.forEach(f=>{
+    const lab=document.createElement('label'); lab.textContent=f.l; box.appendChild(lab);
+    let el;
+    if(f.t==='textarea'){ el=document.createElement('textarea'); }
+    else { el=document.createElement('input'); el.type=f.t||'text'; if(f.t==='number') el.inputMode='decimal'; }
+    el.id='field-'+f.k; lab.htmlFor=el.id; el.placeholder=f.ph||''; el.value=defVal(f.d); el.dataset.k=f.k;
+    el.addEventListener('input',()=>{ if(f.k==='現場名'){ S.site=el.value.trim(); saveS(); } if(f.k==='宛先名'){ S.toName=el.value.trim(); saveS(); } if(!manual) regen(); });
+    box.appendChild(el);
+  });
+}
+function vals(){
+  const v={};
+  $('#fFields').querySelectorAll('[data-k]').forEach(el=>{ let x=el.value; if(el.type==='date') x=jpDate(x); v[el.dataset.k]=String(x).trim(); });
+  return v;
+}
+function regen(){ if(!cur) return; const r=compose(cur); $('#pvSubject').value=r.subject; $('#pvBody').value=r.body; manual=false; }
+function openForm(id){
+  const t=T.find(x=>x.id===id); if(!t){ go(''); return; }
+  if(cur && cur.id!==id) clearPhotos();
+  cur=t; manual=false;
+  $('#hTitle').textContent=t.ic+' '+t.title;
+  $('#fWhen').innerHTML=`<b>${t.id}</b>　${esc(t.when)}${t.photo?'<br>📷 写真を付けて送る':''}`;
+  renderFields(t); regen(); renderPhotos();
+}
+
+/* ---------- 写真 ---------- */
+function loadImg(f){ return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>res(img); img.onerror=rej; img.src=URL.createObjectURL(f); }); }
+async function prep(f,i){
+  const site=(vals().現場名||'現場').replace(/[\\/:*?"<>|\s]/g,'');
+  const name=`${site}_${stamp()}_${i}.jpg`;
+  if(!S.shrink){ try{ return new File([f],name,{type:f.type||'image/jpeg'}); }catch(e){ return f; } }
+  try{
+    const img=await loadImg(f);
+    const max=1600, w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+    const s=Math.min(1,max/Math.max(w,h));
+    const c=document.createElement('canvas'); c.width=Math.round(w*s); c.height=Math.round(h*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(img.src);
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.85));
+    if(!blob) return f;
+    return new File([blob],name,{type:'image/jpeg',lastModified:Date.now()});
+  }catch(e){ return f; }
+}
+async function addFiles(list){ for(const f of list){ const file=await prep(f,photos.length+1); photos.push({file,url:URL.createObjectURL(file)}); } renderPhotos(); }
+function renderPhotos(){
+  const box=$('#photos'); box.innerHTML='';
+  photos.forEach((p,i)=>{ const d=document.createElement('div'); d.className='ph'; d.innerHTML=`<img src="${p.url}" alt=""><small>${Math.round(p.file.size/1024)}KB</small>`; const x=document.createElement('button'); x.textContent='×'; x.setAttribute('aria-label','この写真を外す'); x.onclick=()=>{ URL.revokeObjectURL(p.url); photos.splice(i,1); renderPhotos(); }; d.appendChild(x); box.appendChild(d); });
+}
+function clearPhotos(){ photos.forEach(p=>URL.revokeObjectURL(p.url)); photos=[]; }
+$('#btnCam').onclick=()=>$('#inCam').click();
+$('#btnPick').onclick=()=>$('#inPick').click();
+['inCam','inPick'].forEach(id=>$('#'+id).addEventListener('change',async e=>{ const fl=Array.from(e.target.files||[]); e.target.value=''; if(!fl.length) return; toast('写真を準備中…'); await addFiles(fl); toast('写真 '+photos.length+'枚'); }));
+
+/* ---------- 送る ---------- */
+function current(){ return {subject:$('#pvSubject').value.trim(), body:$('#pvBody').value}; }
+function persistSite(){ const v=vals(); if(v.現場名) S.site=v.現場名; if(v.宛先名) S.toName=v.宛先名; saveS(); }
+function getLog(){ try{ return JSON.parse(localStorage.getItem(LS_L)||'[]'); }catch(e){ return []; } }
+function setLog(L){ try{ localStorage.setItem(LS_L,JSON.stringify(L.slice(0,200))); }catch(e){} }
+function addLog(subject,body,n,how){ const L=getLog(); L.unshift({at:Date.now(),id:cur?cur.id:'',title:cur?cur.title:'',subject,body,n,how}); setLog(L); }
+function copyText(s,say){
+  const done=()=>{ if(say) toast('コピーしました'); };
+  const fb=()=>{ try{ const ta=document.createElement('textarea'); ta.value=s; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }catch(e){} };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(s).then(done).catch(fb); } else fb();
+}
+function openMail(){
+  const {subject,body}=current(); persistSite();
+  const q=[]; if(S.cc) q.push('cc='+encodeURIComponent(S.cc)); q.push('subject='+encodeURIComponent(subject)); q.push('body='+encodeURIComponent(body));
+  copyText(body,false);
+  addLog(subject,body,0,'メール作成画面へ');
+  location.href='mailto:'+(S.toMail||'').trim()+'?'+q.join('&');
+  if(photos.length) setTimeout(()=>toast('写真はメール画面で手で添付してください（本文はコピー済み）'),600);
+}
+async function doShare(){
+  const {subject,body}=current(); persistSite();
+  const files=photos.map(p=>p.file);
+  if(!navigator.share){
+    if(files.length){ toast('写真つき共有に対応していません。写真を残したまま止めました。メールを開き、写真を手で添付してください。'); return; }
+    toast('メールアプリで開きます'); openMail(); return;
+  }
+  const data={title:subject,text:body};
+  if(files.length){
+    if(!navigator.canShare || !navigator.canShare({files})){ toast('写真を共有できません。写真を外して送ることはせず、止めました。メール画面で写真を添付してください。'); return; }
+    data.files=files;
+  }
+  copyText(body,false);
+  try{ await navigator.share(data); addLog(subject,body,data.files?files.length:0,'共有画面へ'); toast('本文はコピー済みです。入っていなければ長押し→ペースト'); }
+  catch(e){ if(e && e.name==='AbortError') return; toast('送れませんでした：'+(e&&e.message?e.message:e)); }
+}
+$('#btnShare').onclick=doShare;
+$('#btnMail').onclick=openMail;
+$('#btnCopy').onclick=()=>{ const {subject,body}=current(); persistSite(); copyText(body,true); addLog(subject,body,0,'コピー'); };
+$('#btnRegen').onclick=()=>{ regen(); toast('入力内容から作り直しました'); };
+$('#pvBody').addEventListener('input',()=>manual=true);
+$('#pvSubject').addEventListener('input',()=>manual=true);
+
+/* ---------- 設定 ---------- */
+function renderSettings(){ $('#sSite').value=S.site; $('#sToCo').value=S.toCo; $('#sToName').value=S.toName; $('#sToMail').value=S.toMail; $('#sCc').value=S.cc; $('#sMe').value=S.me; $('#sSig').value=S.sig; $('#sShrink').checked=!!S.shrink; }
+$('#btnSaveS').onclick=()=>{ S.site=$('#sSite').value.trim(); S.toCo=$('#sToCo').value.trim(); S.toName=$('#sToName').value.trim(); S.toMail=$('#sToMail').value.trim(); S.cc=$('#sCc').value.trim(); S.me=$('#sMe').value.trim(); S.sig=$('#sSig').value; S.shrink=$('#sShrink').checked; saveS(); toast('保存しました'); go(''); };
+
+/* ---------- 記録 ---------- */
+function renderLog(){
+  const L=getLog(); const box=$('#logList');
+  if(!L.length){ box.innerHTML='<div class="empty">まだ記録はありません</div>'; return; }
+  box.innerHTML='';
+  L.forEach((r,i)=>{
+    const d=new Date(r.at); const el=document.createElement('div'); el.className='logitem';
+    el.innerHTML=`<div class="d">${d.getMonth()+1}/${d.getDate()} ${hm(d)}　${esc(r.how||'')}${r.n?'・写真'+r.n+'枚':''}</div><div class="s">${esc(r.subject||'')}</div><pre>${esc(r.body||'')}</pre>`;
+    const ops=document.createElement('div'); ops.className='ops';
+    const c=document.createElement('button'); c.textContent='📋 本文をコピー'; c.onclick=()=>copyText(r.body||'',true);
+    const x=document.createElement('button'); x.textContent='削除'; x.onclick=()=>{ if(confirm('この記録を消しますか？')){ const L2=getLog(); L2.splice(i,1); setLog(L2); renderLog(); } };
+    ops.append(c,x); el.appendChild(ops); box.appendChild(el);
+  });
+}
+$('#btnClearLog').onclick=()=>{ if(confirm('作成・共有の記録を全部消しますか？（元に戻せません）')){ setLog([]); renderLog(); } };
+
+/* ---------- 画面の切り替え ---------- */
+function go(h){ location.hash=h; }
+function route(){
+  const h=(location.hash||'#').slice(1); let view='home', arg='';
+  if(h.indexOf('f=')===0){ view='form'; arg=h.slice(2); } else if(h==='settings'){ view='settings'; } else if(h==='log'){ view='log'; }
+  ['home','form','settings','log'].forEach(v=>{ $('#'+v).hidden=(v!==view); });
+  $('#btnBack').style.visibility=(view==='home')?'hidden':'visible';
+  $('#btnSettings').style.visibility=(view==='home')?'visible':'hidden';
+  if(view==='home'){ $('#hTitle').textContent='ELXIA 現場連絡'; renderHome(); }
+  else if(view==='form'){ openForm(decodeURIComponent(arg)); }
+  else if(view==='settings'){ $('#hTitle').textContent='設定'; renderSettings(); }
+  else if(view==='log'){ $('#hTitle').textContent='作成・共有の記録'; renderLog(); }
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+$('#btnBack').onclick=()=>go('');
+$('#btnSettings').onclick=()=>go('settings');
+$('#btnLog').onclick=()=>go('log');
+let tt; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),2800); }
+$('#ver').textContent=VER;
+route();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+})();
+</script>
+<script src="logic.js"></script><script src="common.js"></script></body>
+</html>
